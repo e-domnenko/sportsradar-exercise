@@ -17,14 +17,12 @@ function compareGames(gameA: Game, gameB: Game) {
   return totalDiff === 0 ? gameA.createdAt - gameB.createdAt : totalDiff;
 }
 
-const ACTIONS = {
-  ADD_GAME: "useGameStore/addGame",
-  UPDATE_SCORE: "useGameStore/updateScore",
-};
+const ACTION_ADD_GAME = "useGameStore/addGame";
+const ACTION_UPDATE_SCORE = "useGameStore/updateScore"
 
-type AddGameAction = { type: "useGameStore/addGame"; payload: GameInit };
+type AddGameAction = { type: typeof ACTION_ADD_GAME; payload: Game };
 type UpdateScoreAction = {
-  type: "useGameStore/updateScore";
+  type: typeof ACTION_UPDATE_SCORE;
   payload: ScoreUpdate;
 };
 type ReducerAction = AddGameAction | UpdateScoreAction;
@@ -37,12 +35,12 @@ export default function useGameStore(
   const [games, dispatch] = useReducer(
     (state: Game[], action: ReducerAction) => {
       switch (action.type) {
-        case ACTIONS.ADD_GAME: {
-            const newState = [...state, action.payload as Game];
+        case ACTION_ADD_GAME: {
+            const newState = [...state, action.payload];
             newState.sort(compareGames);
             return newState;
         }
-        case ACTIONS.UPDATE_SCORE: {
+        case ACTION_UPDATE_SCORE: {
             const scoreUpdate = action.payload as ScoreUpdate;
             const foundGameIdx = state.findIndex((game) => game.id === scoreUpdate.gameId);
             if (foundGameIdx === -1) {
@@ -78,7 +76,7 @@ export default function useGameStore(
     }
 
     dispatch({
-      type: ACTIONS.ADD_GAME,
+      type: ACTION_ADD_GAME,
       payload: {
         ...game,
         id: ++currentId,
@@ -110,7 +108,7 @@ export default function useGameStore(
     }
 
     dispatch({
-      type: ACTIONS.UPDATE_SCORE,
+      type: ACTION_UPDATE_SCORE,
       payload: scoreUpdate,
     });
   }, []);
