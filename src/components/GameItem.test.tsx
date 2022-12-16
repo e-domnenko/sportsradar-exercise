@@ -9,6 +9,7 @@ describe("GameItem", () => {
     homeScore: 5,
     awayTeam: "Away",
     awayScore: 3,
+    createdAt: Date.now()
   };
 
   test("game with score is displayed", () => {

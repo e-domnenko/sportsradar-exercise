@@ -4,4 +4,7 @@ export default interface Game {
     awayTeam: string;
     homeScore: number;
     awayScore: number;
+    createdAt: number;
 }
+
+export type GameInit = Pick<Game, 'homeTeam' | 'awayTeam'>;

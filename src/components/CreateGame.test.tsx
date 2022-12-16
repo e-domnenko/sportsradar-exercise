@@ -55,9 +55,7 @@ describe("CreateGame", () => {
 
     expect(handleCreate).toBeCalledWith({
       homeTeam: homeTeamName,
-      awayTeam: awayTeamName,
-      homeScore: 0,
-      awayScore: 0,
+      awayTeam: awayTeamName
     });
   });
 

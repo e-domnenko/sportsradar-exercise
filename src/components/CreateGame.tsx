@@ -1,8 +1,8 @@
 import React, { SyntheticEvent, useCallback, useRef, useState } from 'react';
-import Game from "../types/Game";
+import { GameInit } from "../types/Game";
 
 interface CreateGameProps {
-    onCreate?: (game: Omit<Game, 'id'>) => void;
+    onCreate?: (game: GameInit) => void;
 }
 
 export default function CreateGame({ onCreate }: CreateGameProps) {
@@ -38,7 +38,7 @@ export default function CreateGame({ onCreate }: CreateGameProps) {
         }
 
         if (onCreate) {
-            onCreate({ homeTeam, homeScore: 0, awayTeam, awayScore: 0 });
+            onCreate({ homeTeam, awayTeam});
         }
 
         closeForm();
