@@ -1,24 +1,19 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import useGameStore from "./store/useGamesStore";
+import CreateGame from "./components/CreateGame";
+import GameItem from "./components/GameItem";
+import "./App.css";
 
 function App() {
+  const [games, { addGame, updateScore }] = useGameStore();
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <CreateGame onCreate={addGame} />
+      <div>
+        {games.map((game) => (
+          <GameItem key={game.id} game={game} onScoreChange={updateScore} />
+        ))}
+      </div>
     </div>
   );
 }

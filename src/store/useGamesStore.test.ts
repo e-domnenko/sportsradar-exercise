@@ -171,4 +171,60 @@ describe("Games Store", () => {
 
     expect(() => updateScore({ gameId: game0.id, homeScore: 2, awayScore: 1.2 })).toThrow(/positive integer/i);
   });
+
+  test('score update homeScore should accept zero', () => {
+    const updatedGame: Game = {
+      ...game0,
+      homeScore: 0,
+    };
+
+    const { result } = renderHook(() => useGameStore([game0]));
+    const { updateScore } = result.current[1];
+
+    act(() =>
+      updateScore({
+        gameId: updatedGame.id,
+        homeScore: updatedGame.homeScore,
+        awayScore: updatedGame.awayScore,
+      })
+    );
+
+    expect(result.current[0]).toEqual([updatedGame]);
+  });
+
+  test('score update awayScore should accept zero', () => {
+    const updatedGame: Game = {
+      ...game0,
+      awayScore: 0,
+    };
+
+    const { result } = renderHook(() => useGameStore([game0]));
+    const { updateScore } = result.current[1];
+
+    act(() =>
+      updateScore({
+        gameId: updatedGame.id,
+        homeScore: updatedGame.homeScore,
+        awayScore: updatedGame.awayScore,
+      })
+    );
+
+    expect(result.current[0]).toEqual([updatedGame]);
+  });
+
+  test('id should be unique', () => {
+    const initialGames = [game0, game1, game2];
+
+    const { result } = renderHook(() => useGameStore(initialGames));
+
+    const { addGame } = result.current[1];
+    const newGame = { homeTeam: "Home", awayTeam: "Away" };
+
+    act(() => addGame(newGame));
+
+    const createdId = result.current[0][3].id;
+    expect(createdId).not.toEqual(game0.id);
+    expect(createdId).not.toEqual(game1.id);
+    expect(createdId).not.toEqual(game2.id);
+  })
 });

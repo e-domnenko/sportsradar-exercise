@@ -66,6 +66,7 @@ export default function useGameStore(
     initialGames || [],
     (initGames: Game[]) => {
       const initialState = [...initGames];
+      initGames.forEach(({ id }) => { currentId = Math.max(id, currentId) });
       initialState.sort(compareGames);
       return initialState;
     }
@@ -93,7 +94,7 @@ export default function useGameStore(
       throw new Error("gameId is required");
     }
 
-    if (!scoreUpdate.awayScore || !scoreUpdate.homeScore) {
+    if (isNaN(scoreUpdate.awayScore) || isNaN(scoreUpdate.homeScore)) {
       throw new Error("homeScore and awayScore fields are required");
     }
 
